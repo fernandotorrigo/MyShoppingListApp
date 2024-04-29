@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ftorrigo.myshoppinglistapp.model.ShoppingItem
+import com.ftorrigo.myshoppinglistapp.ui.components.AlertDialogCustom
 
 @Composable
 fun ShoppingListScreen() {
@@ -27,15 +30,26 @@ fun ShoppingListScreen() {
         mutableStateOf(listOf<ShoppingItem>())
     }
 
+    var showDialog by remember {
+        mutableStateOf(false)
+    }
+
+    var nameItem by remember {
+        mutableStateOf("")
+    }
+
+    var qtdItem by remember {
+        mutableStateOf("")
+    }
+
     Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center
+        modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center
     ) {
         Box(
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { showDialog = true },
             ) {
                 Text(text = "Add Item")
             }
@@ -51,6 +65,18 @@ fun ShoppingListScreen() {
                 }
             }
         }
+    }
+
+    if (showDialog) {
+        AlertDialogCustom(
+            onDismissRequest = { showDialog = false },
+            onConfirmation = { showDialog = false },
+            setName = { nameItem = it},
+            nameItem = nameItem,
+            setQtd = { qtdItem = it},
+            qtdItem = qtdItem,
+            icon = Icons.Default.Info
+        )
     }
 }
 
