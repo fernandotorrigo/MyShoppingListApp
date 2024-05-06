@@ -3,12 +3,14 @@ package com.ftorrigo.myshoppinglistapp.ui.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -66,10 +68,26 @@ fun ShoppingListScreen() {
         AlertDialogCustom(
             onDismissRequest = { showDialog = false },
             onConfirmation = { showDialog = false },
-            setName = { nameItem = it },
-            nameItem = nameItem,
-            setQtd = { qtdItem = it },
-            qtdItem = qtdItem,
+            content = {
+                Column {
+                    OutlinedTextField(
+                        value = nameItem,
+                        onValueChange = { nameItem = it },
+                        singleLine = true,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp)
+                    )
+                    OutlinedTextField(
+                        value = qtdItem,
+                        onValueChange = { qtdItem = it },
+                        singleLine = true,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp)
+                    )
+                }
+            },
             icon = Icons.Default.Info
         )
     }
