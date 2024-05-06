@@ -27,7 +27,7 @@ import com.ftorrigo.myshoppinglistapp.ui.components.ShoppingListItem
 @Composable
 fun ShoppingListScreen() {
 
-    val sItems by remember {
+    var sItems by remember {
         mutableStateOf(listOf<ShoppingItem>())
     }
 
@@ -59,7 +59,10 @@ fun ShoppingListScreen() {
                 .padding(16.dp)
         ) {
             items(sItems) {
-                ShoppingListItem(it, {}, {})
+                ShoppingListItem(
+                    item = it,
+                    onDeleteClick = { sItems = sItems.filter { item -> it.id != item.id } },
+                    onEditClick = {})
             }
         }
     }
@@ -67,7 +70,20 @@ fun ShoppingListScreen() {
     if (showDialog) {
         AlertDialogCustom(
             onDismissRequest = { showDialog = false },
-            onConfirmation = { showDialog = false },
+            onConfirmation = {
+                if (nameItem.isNotBlank()) {
+                    val newItem = ShoppingItem(
+                        id = sItems.size + 1,
+                        name = nameItem,
+                        quantity = qtdItem.toInt()
+                    )
+                    sItems = sItems + newItem
+                    showDialog = false
+                    nameItem = ""
+                    qtdItem = ""
+                }
+                showDialog = false
+            },
             content = {
                 Column {
                     OutlinedTextField(
