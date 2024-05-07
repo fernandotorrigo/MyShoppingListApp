@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ftorrigo.myshoppinglistapp.model.ShoppingItem
 import com.ftorrigo.myshoppinglistapp.ui.components.AlertDialogCustom
+import com.ftorrigo.myshoppinglistapp.ui.components.ShoppingItemEditor
 import com.ftorrigo.myshoppinglistapp.ui.components.ShoppingListItem
 
 @Composable
@@ -58,11 +59,28 @@ fun ShoppingListScreen() {
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            items(sItems) {
-                ShoppingListItem(
-                    item = it,
-                    onDeleteClick = { sItems = sItems.filter { item -> it.id != item.id } },
-                    onEditClick = {})
+            items(sItems) { item ->
+                if (item.isEditing) {
+                    ShoppingItemEditor(item = item,
+                        onEditComplete = { editedName, editedQuantity ->
+                            sItems = sItems.map { item.copy(isEditing = false) }
+                            val editedItem = sItems.find { it.id == item.id }
+                            editedItem?.let {
+                                it.name = editedName
+                                it.quantity = editedQuantity
+                            }
+
+                        })
+                } else {
+                    ShoppingListItem(
+                        item = item,
+                        onDeleteClick = { sItems = sItems - item },
+                        onEditClick = {
+                            sItems = sItems.map { item.copy(isEditing = it.id == item.id) }
+                        }
+                    )
+                }
+
             }
         }
     }
