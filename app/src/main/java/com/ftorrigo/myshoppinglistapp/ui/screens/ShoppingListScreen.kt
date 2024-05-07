@@ -17,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -51,6 +52,7 @@ fun ShoppingListScreen() {
 
         Button(
             onClick = { showDialog = true },
+            modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
             Text(text = "Add Item")
         }
